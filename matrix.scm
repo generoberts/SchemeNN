@@ -1,6 +1,6 @@
 ;;; all about matrix
 
-(define matrix
+(define-record-type matrix
   (matrix lst size row col) ; matrix is just a list of lists
   matrix?
   (lst content set-matrix!)
