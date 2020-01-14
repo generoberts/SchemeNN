@@ -41,3 +41,7 @@
                 (apply + (map * row column)))
               (content m2)))
      (content m1))))
+
+;; for element-wise apply the activation function
+(define (elementwise-apply func mtrx)
+  )
