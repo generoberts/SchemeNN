@@ -8,6 +8,8 @@
   (row row set-row-num!) ; a number of row
   (col col set-col-num!)) ; a number of col
 
+
+;; make matrix from a list of lists
 (define (make-matrix lst)
   (if (and (not (null? lst))
            (list? lst))
@@ -26,3 +28,16 @@
   (if (list? (car lst))
       (length (car lst))
       1))
+
+;; matrix multiplication
+;; https://rosettacode.org/wiki/Matrix_multiplication
+(define (matrix-mul m1 m2)
+  (when (and (matrix? m1)
+             (matrix? m2))
+    (map
+     (lambda (row)
+       (apply map
+              (lambda column
+                (apply + (map * row column)))
+              (content m2)))
+     (content m1))))
