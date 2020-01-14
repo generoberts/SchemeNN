@@ -14,11 +14,11 @@
   (if (and (not (null? lst))
            (list? lst))
       (matrix lst
-              (cons (lenght lst)
+              (cons (length lst)
                     (matrix-col-num lst))
-              (lenght lst)
-              (matrix-col-num lst)
-      (raise "Not a matrix"))))
+              (length lst)
+              (matrix-col-num lst))
+      (raise "Not a matrix")))
 
 ;; helper function
 ;; if it's a vector, this function retrun 1
@@ -44,4 +44,20 @@
 
 ;; for element-wise apply the activation function
 (define (elementwise-apply func mtrx)
-  )
+  (when (matrix? mtrx)
+    (map (lambda (row)
+           (map (lambda (element) (func element))
+                row))
+         mtrx)))
+
+;; softmax and maxout functions operate on a list, not an singel element
+(define (rowwise-apply func mtrx)
+  (when (matrix? mtrx)
+    (map (lambda (row)
+           (func row)) mtrx)))
+
+;; now, binding elementwise and rowwise together for ease of use
+(define (matrix-apply func mtrx element?)
+  (if element?
+      (elementwise-apply func mtrx)
+      (rowwise-apply func mtrx)))
