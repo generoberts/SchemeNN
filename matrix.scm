@@ -58,3 +58,18 @@
   (if element?
       (elementwise-apply func mtrx)
       (rowwise-apply func mtrx)))
+
+;; identity square matrix of the given size
+(define (identity-matrx size)
+  (define (make-list size) ; make a list of length size, filling it with 0
+    (if (= 0 size)
+        '()
+        (cons 0 (make-list (- size 1)))))
+  (let ((first-list (make-list size))
+        (i 0))
+    (map (lambda (zero)
+           (begin
+             (set! zero
+                   (set! (list-ref (make-list size) i)
+                         1))
+             (set! i (+ i 1)))) first-list)))
