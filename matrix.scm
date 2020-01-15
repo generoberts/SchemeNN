@@ -61,21 +61,7 @@
 
 ;; identity square matrix of the given size
 (define (identity-matrix size)
-  (define (make-list size) ; make a list of length size, filling it with 0
-    (if (= 0 size)
-        '()
-        (cons 0 (make-list (- size 1)))))
-  (let ((first-list (make-list size))
-        (i 0))
-    (map (lambda (zero)
-           (begin
-             (set! zero
-                   (set! (list-ref (make-list size) i)
-                         1))
-             (set! i (+ i 1)))) first-list)))
-
-(define (id size)
-  (define (make-list-helper size index)
+  (define (make-list-helper size index) ; all but the index is 0, the index is 1
     (if (= 0 size)
         '()
         (cons (if (= index (- size 1))
@@ -84,13 +70,10 @@
               (make-list-helper (- size 1) index))))
   (define (make-list size index)
     (reverse (make-list-helper size index)))
-  (define (make-zeros size)
+  (define (make-zeros size) ; a list of 0s
     (if (= 0 size)
         '()
         (cons 0 (make-zeros (- size 1)))))
-  ;; (let ((first-list (make-zeros size))
-        ;; (i 0))
-  ;; (map (lambda (zero) (make-list size i) (+ i 1)) first-list)))
   (do ((first-list (make-zeros size))
        (i 0 (+ i 1)))
       ((= i size) first-list)
