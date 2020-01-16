@@ -5,10 +5,10 @@
 (define-record-type matrix
   (matrix lst size row col) ; matrix is just a list of lists
   matrix?
-  (lst content set-matrix!)
-  (size size set-size!) ; (row . col)
-  (row row set-row-num!) ; a number of row
-  (col col set-col-num!)) ; a number of col
+  (lst matrix-content set-matrix!)
+  (size matrix-size set-size!) ; (row . col)
+  (row matrix-row set-row-num!) ; a number of row
+  (col matrix-col set-col-num!)) ; a number of col
 
 
 ;; make matrix from a list of lists
@@ -63,34 +63,36 @@
 
 ;; identity square matrix of the given size
 (define (identity-matrix size)
-  (define (make-list-helper size index) ; all but the index is 0, the index is 1
-    (if (= 0 size)
-        '()
-        (cons (if (= index (- size 1))
-                  1
-                  0)
-              (make-list-helper (- size 1) index))))
-  (define (make-list size index)
-    (reverse (make-list-helper size index)))
-  (define (make-zeros size) ; a list of 0s
-    (if (= 0 size)
-        '()
-        (cons 0 (make-zeros (- size 1)))))
-  (do ((first-list (make-zeros size))
-       (i 0 (+ i 1)))
-      ((= i size) first-list)
+  (define (identity-matrix-builder size) ; returns a list of lists representing identity matrix. We have to pass that in to make-matrix function
+    (define (make-list-helper size index) ; all but the index is 0, the index is 1
+      (if (= 0 size)
+          '()
+          (cons (if (= index (- size 1))
+                    1
+                    0)
+                (make-list-helper (- size 1) index))))
+    (define (make-list size index)
+      (reverse (make-list-helper size index)))
+    (define (make-zeros size) ; a list of 0s
+      (if (= 0 size)
+          '()
+          (cons 0 (make-zeros (- size 1)))))
+    (do ((first-list (make-zeros size))
+         (i 0 (+ i 1)))
+        ((= i size) first-list)
       (set! (list-ref first-list i)
             (make-list size i))))
+  (make-matrix (identity-matrix-builder size)))
 
 ;; radom matrix is a matrix of size NxN that its all elements
 ;; are random number from 0 to 1
 (define (random-matrix size)
-  (define (random-row s)
-    (if (= 0 s)
-        '()
-        (cons (rrandom) (random-row (- s 1)))))
-  (do ((result '())
-       (i 0 (+ i 1)))
-      ((= i size) result)
-    (set! result
-          (cons (random-row size) result))))
+  (define (random-matrix-builder size)
+    (define (random-row s)
+      (if (= 0 s)
+          '()
+          (cons (rrandom) (random-row (- s 1)))))
+    (do ((result '() (cons (random-row size) result))
+         (i 0 (+ i 1)))
+        ((= i size) result)))
+  (make-matrix (random-matrix-builder size)))
