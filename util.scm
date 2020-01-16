@@ -12,20 +12,19 @@
 (define (chars->strings lst)
   (map (lambda (ch) (string ch)) lst))
 
-;; read csv file line-by-line and return the list of those lines
-(define (csv->list-of-list file) ; file is a name of the file
-  (call-with-input-file file
-    (lambda (l)
-      (let f ((result '())
-              (line (read-line l)))
-        (cond
-         ((eof-object? line)
-          (reverse result))
-         (else
-          (f (cons (list line) result) ; use list lien because we want to make the result of the form lists-in-list, and the inner list will act as a line separater
-             (read-line l))))))))
-
 (define (read-csv file)
+  ;; read csv file line-by-line and return the list of those lines
+  (define (csv->list-of-list file) ; file is a name of the file
+    (call-with-input-file file
+      (lambda (l)
+        (let f ((result '())
+                (line (read-line l)))
+          (cond
+           ((eof-object? line)
+            (reverse result))
+           (else
+            (f (cons (list line) result) ; use list lien because we want to make the result of the form lists-in-list, and the inner list will act as a line separater
+               (read-line l))))))))
   (let ((the-list (csv->list-of-list file))) ; it's of the form (("1,2") ("3,4"))
     (map (lambda (line) (chars->strings ; turns a list of chars to a list of string
                     (remove #\, ; removes commas from a list of chars
