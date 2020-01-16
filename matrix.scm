@@ -1,5 +1,7 @@
 ;;; all about matrix
 
+(include "random")
+
 (define-record-type matrix
   (matrix lst size row col) ; matrix is just a list of lists
   matrix?
@@ -79,3 +81,16 @@
       ((= i size) first-list)
       (set! (list-ref first-list i)
             (make-list size i))))
+
+;; radom matrix is a matrix of size NxN that its all elements
+;; are random number from 0 to 1
+(define (random-matrix size)
+  (define (random-row s)
+    (if (= 0 s)
+        '()
+        (cons (rrandom) (random-row (- s 1)))))
+  (do ((result '())
+       (i 0 (+ i 1)))
+      ((= i size) result)
+    (set! result
+          (cons (random-row size) result))))
