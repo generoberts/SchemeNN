@@ -21,6 +21,10 @@
 
 ;; assuming that we already define model, thus to use this function we do
 ;; (feedforward (layers model) input) where input is a single row of input matrix
+;; todo: should we take a list of input and let the result
+;; of this functio be a list of results?
+;; reason: beacuse the cost function takes such list of result
+;; along with list of expeted values
 (define (feedforward model-layers input) 
   (define (ff lyres init) ; a list of layers and a init input
     (let ((this-layer (car lyres)))
