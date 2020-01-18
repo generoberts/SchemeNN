@@ -1,11 +1,12 @@
 (include "matrix")
+(include "activation")
 
 ;; a layer, contrac to normal methology, contains an input matrix, a weightm mamtrix,
 ;; activation function, and bias
 (define-record-type layer
   (layer weight activation bias)
   layer?
-  (weights weight-matrix set-weight-matrix!)
+  (weight weight-matrix set-weight-matrix!)
   (activation acti-func set-acti-func!)
   (bias bias-matrix set-bias-matrix!))
 
@@ -13,8 +14,11 @@
 ;; we use this function to make a layer because we don't want to manually type random
 ;; matrix for weights-matrix everytime
 ;; activation is activation function's name
-(define (make-layer activation bias)
-  )
+;; bias is the value of the bias (just give a number, the procedures know how to elementwise-plus to matrix/value)
+(define (make-layer size activation bias)
+  (layer (random-matrix size)
+         (make-activation-function activation)
+         1))
 
 ;; model contains a list of layers
 (define-record-type model
