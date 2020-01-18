@@ -7,12 +7,10 @@
 ;; https://en.wikipedia.org/wiki/Activation_function
 ;; when apply acitvation function, we have to check that we didn't apply
 ;; a function that we don't implement here
-(define defined-functions '(sigmoid logistic softmax identity))
-
 (define-record-type activation-function
   (activation-function type function derivative)
   activation-function?
-  (type type) ; once define, activation function can't change its type
+  (type type) ; basically a name. once define, activation function can't change its type
   (function function)
   (derivative derivative)) ; all derivative is named as function type but with prefix d
 
