@@ -15,7 +15,9 @@
 (define (make-matrix lst)
   (if (and (not (null? lst))
            (list? lst))
-      (matrix lst
+      (matrix (if (pair? (car lst)) ; the lst is of the form ((a ...) (b ...) ...)
+                  lst
+                  (map (lambda (element) (list elment)))) ; the lst is of the form (a b c ...) so we turn it into ((a) (b) ...)
               (cons (length lst)
                     (matrix-col-num lst))
               (length lst)
