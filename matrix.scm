@@ -44,7 +44,7 @@
               (content m2)))
      (content m1))))
 
-;; now, binding elementwise and rowwise together for ease of use
+;; apply a function element-wise to the matrix
 (define (matrix-apply func mtrx element?)
   (define (elementwise-apply func mtrx)
     (when (matrix? mtrx)

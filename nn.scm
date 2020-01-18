@@ -3,8 +3,7 @@
 (define-record-type layer
   (layer inputs weight activation bias)
   layer?
-  (inputs input-metrix set-input-metrix!)
-  (weight weight-matrix set-weight-matrix!)
+  (weights weight-matrix set-weight-matrix!)
   (activation acti-func set-acti-func!)
   (bias bias-matrix set-bias-matrix!))
 
@@ -12,4 +11,12 @@
 (define-record-type model
   (model layers)
   model?
+  (input input)
   (layers layers))
+
+;; apply feedforward to the layers of the model
+;; Returns a list of (+ (activation-function (* input weight)) bias)
+(define (feed-forward mdl)
+  (let ((lyrs (layers mdl)))
+    (let ((weight (weight-matrix lyrs))
+          (activation))))) ; layers of the model
