@@ -45,6 +45,7 @@
      (matrix-content m1))))
 
 ;; apply a function element-wise to the matrix
+;; if element? is #f, it apply rowwise
 (define (matrix-apply func mtrx element?)
   (define (elementwise-apply func mtrx)
     (when (matrix? mtrx)

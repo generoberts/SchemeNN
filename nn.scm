@@ -22,7 +22,7 @@
 
 ;; model contains a list of layers
 (define-record-type model
-  (model layers)
+  (model input layers)
   model?
   (input input)
   (layers layers))
@@ -36,18 +36,22 @@
 ;; of this functio be a list of results?
 ;; reason: beacuse the cost function takes such list of result
 ;; along with list of expeted values
-(define (feedforward model-layers input) 
+(define (feedforward model-layers model-input) 
   (define (ff lyres init) ; a list of layers and a init input
-    (let ((this-layer (car lyres)))
+    (let ((this-layer (if (not (null? lyres))
+                          (car lyres)
+                          '())))
       (if (null? this-layer)
           0
-          (ff (cdr this-layer)
+          (ff (cdr lyres)
               (matrix-apply (if (null? (cdr lyres)) ; we don't have the next layer
                                 (bias-values 0)
                                 (bias-values (bias-matrix this-layer)))
                             (matrix-apply (acti-func this-layer)
                                           (matrix-mul (weight-matrix this-layer)
-                                                      init)))))))
-  (ff (reverse model-layers) input))
+                                                      init)
+                                          #t) ; todo: use #f automatically if it's the vector
+                            #t)))))
+  (ff (reverse model-layers) model-input))
 
 
