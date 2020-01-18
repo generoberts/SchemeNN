@@ -1,9 +1,5 @@
 (import (scheme inexact))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; todo: derivatives ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; https://en.wikipedia.org/wiki/Activation_function
 ;; when apply acitvation function, we have to check that we didn't apply
 ;; a function that we don't implement here
@@ -68,7 +64,6 @@
      (e^x+-e^-x x #t)))
 (define (dtanh x)
   (- 1 (expt (tanh x) 2)))
-
 
 (define (relu x)
   (if (> x 0)

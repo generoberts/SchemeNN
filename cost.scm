@@ -1,6 +1,7 @@
 ;;; cost functions
 
 (define-record-type cost-function
+  (cost-function type cost-func gradient)
   cost-function?
   (type type) ; basically a name
   (cost-func cost-func)
