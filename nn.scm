@@ -1,5 +1,4 @@
-(include "matrix")
-(include "activation")
+(include "matrix" "activation")
 
 ;; a layer, contrac to normal methology, contains an input matrix, a weightm mamtrix,
 ;; activation function, and bias
@@ -35,9 +34,9 @@
 (define (feedforward mdl)
   (define (calculate this-layer this-init)
     (matrix-apply (bias-values (bias-matrix this-layer))
-                  (matrix-apply (acti-func this-layer)
-                                (matrix-mul (weight-matrix this-layer)
-                                            this-init)
+                  (matrix-apply (function (acti-func this-layer))
+                                (make-matrix (matrix-mul (weight-matrix this-layer)
+                                             this-init))
                                 #t)
                   #t))
   (define (ff lyres init)
