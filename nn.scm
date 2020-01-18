@@ -3,11 +3,18 @@
 ;; a layer, contrac to normal methology, contains an input matrix, a weightm mamtrix,
 ;; activation function, and bias
 (define-record-type layer
-  (layer inputs weight activation bias)
+  (layer weight activation bias)
   layer?
   (weights weight-matrix set-weight-matrix!)
   (activation acti-func set-acti-func!)
   (bias bias-matrix set-bias-matrix!))
+
+;; making layer
+;; we use this function to make a layer because we don't want to manually type random
+;; matrix for weights-matrix everytime
+;; activation is activation function's name
+(define (make-layer activation bias)
+  )
 
 ;; model contains a list of layers
 (define-record-type model
@@ -32,8 +39,8 @@
           0
           (ff (cdr this-layer)
               (matrix-apply (if (null? (cdr lyres)) ; we don't have the next layer
-                                (biars-values 0)
-                                (bias-value (bias-matrix this-layer)))
+                                (bias-values 0)
+                                (bias-values (bias-matrix this-layer)))
                             (matrix-apply (acti-func this-layer)
                                           (matrix-mul (weight-matrix this-layer)
                                                       init)))))))

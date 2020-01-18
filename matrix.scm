@@ -41,8 +41,8 @@
        (apply map
               (lambda column
                 (apply + (map * row column)))
-              (content m2)))
-     (content m1))))
+              (matrix-content m2)))
+     (matrix-content m1))))
 
 ;; apply a function element-wise to the matrix
 (define (matrix-apply func mtrx element?)

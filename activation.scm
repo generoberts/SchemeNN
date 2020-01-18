@@ -14,6 +14,19 @@
   (function function)
   (derivative derivative)) ; all derivative is named as function type but with prefix d
 
+;; usage: (make-activation-function 'softplus)
+(define (make-activation-function name)
+  (let ((func-deri (case name
+                     ((identity) (cons identity didentity))
+                     ((binary-step) (cons binary-step dbinary-step))
+                     ((logistic) (cons logistic dlogistic))
+                     ((tanh) (cons tanh dtanh))
+                     ((relu) (cons relu drelu))
+                     ((leaky-relu) (cons leaky-relu dleaky-relu))
+                     ((softplus) (cons softplus dsoftplus))
+                     (else (raise "Unknow activation function")))))
+    (activation-function name (car func-deri) (cdr func-deri))))
+
 ;; take a vector (or a list) as input
 (define (softmax vect)
   (let ((summation (apply + (map exp vect))))
