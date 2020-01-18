@@ -31,12 +31,8 @@
   (lambda (x) (+ b x)))
 
 ;; assuming that we already define model, thus to use this function we do
-;; (feedforward (layers model) input) where input is a single row of input matrix
-;; todo: should we take a list of input and let the result
-;; of this functio be a list of results?
-;; reason: beacuse the cost function takes such list of result
-;; along with list of expeted values
-(define (feedforward model-layers model-input) 
+;; (feedforward model)
+(define (feedforward mdl)
   (define (ff lyres init) ; a list of layers and a init input
     (let ((this-layer (if (not (null? lyres))
                           (car lyres)
@@ -52,6 +48,6 @@
                                                       init)
                                           #t) ; todo: use #f automatically if it's the vector
                             #t)))))
-  (ff (reverse model-layers) model-input))
-
-
+  (let ((l (layers mdl))
+        (i (input mdl)))
+    (ff (reverse l) i)))
