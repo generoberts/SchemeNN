@@ -19,19 +19,6 @@
 (define (bias-values b)
   (lambda (x) (+ b x)))
 
-;; apply feedforward to the layers of the model
-;; Returns a list of (+ (activation-function (* input weight)) bias)
-(define (feedforward mdl)
-  (define (ff lyers in) ; a list of layers and an input vector
-    (if (null? lyers)
-        0
-        (let ((result (matrix-apply (if (null? (cdr layer)) ; is this correct?
-                                        (bias-values 0)
-                                        (bias-values (bias-matrix layer)))
-                                    (matrix-mul (car lyers) in)))
-              (ff (cdr lyers) result)))))
-  (ff (layers mdl) (input mdl)))
-
 ;; assuming that we already define model, thus to use this function we do
 ;; (feedforward (layers model) input) where input is a single row of input matrix
 (define (feedforward model-layers input) 
