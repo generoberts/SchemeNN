@@ -33,21 +33,19 @@
 ;; assuming that we already define model, thus to use this function we do
 ;; (feedforward model)
 (define (feedforward mdl)
-  (define (ff lyres init) ; a list of layers and a init input
-    (let ((this-layer (if (not (null? lyres))
-                          (car lyres)
-                          '())))
-      (if (null? this-layer)
-          0
+  (define (calculate this-layer this-init)
+    (matrix-apply (bias-values (bias-matrix this-layer))
+                  (matrix-apply (acti-func this-layer)
+                                (matrix-mul (weight-matrix this-layer)
+                                            this-init)
+                                #t)
+                  #t))
+  (define (ff lyres init)
+    (let ((this-layer (car lyres)))
+      (if (null? (cdr lyres)) ; we don't have the next layer
+          (calculate this-layer init)
           (ff (cdr lyres)
-              (matrix-apply (if (null? (cdr lyres)) ; we don't have the next layer
-                                (bias-values 0)
-                                (bias-values (bias-matrix this-layer)))
-                            (matrix-apply (acti-func this-layer)
-                                          (matrix-mul (weight-matrix this-layer)
-                                                      init)
-                                          #t) ; todo: use #f automatically if it's the vector
-                            #t)))))
-  (let ((l (layers mdl))
-        (i (input mdl)))
-    (ff (reverse l) i)))
+              (calculate this-layer init)))))
+    (let ((l (layers mdl))
+          (i (input mdl)))
+      (ff (reverse l) i)))
