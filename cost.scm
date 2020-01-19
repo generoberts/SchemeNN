@@ -7,16 +7,28 @@
   (cost-func cost-func)
   (gradient gradient)) ; gradient of this cost function, its name is the type of cost function with prefix 'g'
 
+;; because we need to slighly difference apply costs function between number and vector
+(define (both-are-number? result expected)
+  (and (number? result)
+       (number? expected)))
+
 ;; result is what feedforward gives us
 ;; expeted is what the training data is
 (define (mse result expected)
-  (if (and (number? result)
-           (number? expected)) ; the result is a number, that is we want to predict only 1 value
+  (if (both-are-number? result expected)
       (* 0.5 (expt (- result expected) 2))
       (* 0.5 (apply + (map (lambda (x) (* x x))
                            (map - result expected))))))
 (define (gmse results expected)
-  (if (and (number? result)
-           (number? expected))
+  (if (both-are-number? result expected)
       (- result expected)
       (map - result expeted)))
+
+(define (cross-entropy result expected)
+  (if (both-are-number? result expected)
+      (- (+ (* expected (log result)) (* (- 1 expected) (log (- 1 result)))))
+      (- (apply + (map (lambda (r e) (+ (* e (log r)) (* (- 1 e) (log (- 1 r))))) result expected)))))
+(define (gcross-entropy result expected)
+  (if (both-are-number? result expected)
+      (/ (- result expected) (* (- 1 result) result))
+      (map (lambda (r e) (/ (- r e) (* (- 1 r) r))) result expected)))
