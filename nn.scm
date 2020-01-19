@@ -28,8 +28,13 @@
 (define (bias-values b)
   (lambda (x) (+ b x)))
 
-;; assuming that we already define model, thus to use this function we do
-;; (feedforward model)
+;; assuming that we already define model and an input matrix,
+;; thus to use this function we do
+;; (feedforward model input)
+;; for many input matrix, assuming we put them all in a list L
+;; so we can do
+;; (map (lambda (in) (feedforward mdl in)) L)
+;; the lambda takes only one argument because we want to use the same model for all the input matrixs
 (define (feedforward mdl inpt)
   (define (calculate this-layer this-init)
     (matrix-apply (bias-values (bias-matrix this-layer))
