@@ -20,7 +20,7 @@
                      ((relu) (cons relu drelu))
                      ((leaky-relu) (cons leaky-relu dleaky-relu))
                      ((softplus) (cons softplus dsoftplus))
-                     (else (raise "Unknow activation function")))))
+                     (else (error "Unknow activation function")))))
     (activation-function name (car func-deri) (cdr func-deri))))
 
 ;; take a vector (or a list) as input
