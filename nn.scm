@@ -54,3 +54,17 @@
             (i inpt))
         (ff (reverse l) i))
       (error "Not a model.")))
+
+;; MDL is obvious the model we want to train
+;; INPT is the input matrix. This is just one input matrix, not a list of input matrixs
+;; EXPECTED is the corresponding expected values for the input
+;; EXPECTED can be a single value matrix of a matrix  in the case
+;;that the output neural isn't just one single neuron
+;; CF is the cost function
+(define (calculate-error mdl inpt expected cf)
+  (if (and (model? mdl)
+           (cost-function? cf)
+           (matrix? inpt)
+           (matrix? expected))
+      (let ((out-put (feedforward mdl inpt)))
+        ((cost-func cf) out-put expected))))
