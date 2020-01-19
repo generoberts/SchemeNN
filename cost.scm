@@ -7,7 +7,17 @@
   (cost-func cost-func)
   (gradient gradient)) ; gradient of this cost function, its name is the type of cost function with prefix 'g'
 
-;; because we need to slighly difference apply costs function between number and vector
+(define (make-activation-function name)
+  (let ((func-deri (case name
+                     ((mse) (cons mse gmsc))
+                     ((cross-entropy) (cons cross-entropy gcross-entropy))
+                     (else (error "Unknow activation function")))))
+    (activation-function name
+                         (car func-deri)
+                         (cdr func-deri))))
+
+
+;; name we need to slighly difference apply costs function between number and vector
 (define (both-are-number? result expected)
   (and (number? result)
        (number? expected)))
