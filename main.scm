@@ -1,3 +1,5 @@
+(import (r7rs))
+
 (include "nn")
 
 (define l1 (make-layer 2 'tanh 1))
