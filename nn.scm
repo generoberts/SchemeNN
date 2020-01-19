@@ -21,9 +21,8 @@
 
 ;; model contains a list of layers
 (define-record-type model
-  (model input layers)
+  (model layers)
   model?
-  (input input)
   (layers layers))
 
 (define (bias-values b)
@@ -31,7 +30,7 @@
 
 ;; assuming that we already define model, thus to use this function we do
 ;; (feedforward model)
-(define (feedforward mdl)
+(define (feedforward mdl inpt)
   (define (calculate this-layer this-init)
     (matrix-apply (bias-values (bias-matrix this-layer))
                   (make-matrix (matrix-apply (function (acti-func this-layer))
@@ -47,6 +46,6 @@
               (calculate this-layer init)))))
   (if (model? mdl)
       (let ((l (layers mdl))
-            (i (input mdl)))
+            (i inpt))
         (ff (reverse l) i))
       (error "Not a model.")))
