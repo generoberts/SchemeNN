@@ -1,4 +1,4 @@
-(include "matrix" "activation")
+(include "matrix" "activation" "cost")
 
 ;; a layer, contrac to normal methology, contains an input matrix, a weightm mamtrix,
 ;; activation function, and bias
