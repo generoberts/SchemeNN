@@ -7,9 +7,9 @@
   (cost-func cost-func)
   (gradient gradient)) ; gradient of this cost function, its name is the type of cost function with prefix 'g'
 
-(define (make-activation-function name)
+(define (make-cost-function name)
   (let ((func-deri (case name
-                     ((mse) (cons mse gmsc))
+                     ((mse) (cons mse gmse))
                      ((cross-entropy) (cons cross-entropy gcross-entropy))
                      (else (error "Unknow activation function")))))
     (activation-function name
@@ -29,10 +29,10 @@
       (* 0.5 (expt (- result expected) 2))
       (* 0.5 (apply + (map (lambda (x) (* x x))
                            (map - result expected))))))
-(define (gmse results expected)
+(define (gmse result expected)
   (if (both-are-number? result expected)
       (- result expected)
-      (map - result expeted)))
+      (map - result expected)))
 
 (define (cross-entropy result expected)
   (if (both-are-number? result expected)
