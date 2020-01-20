@@ -12,10 +12,9 @@
                      ((mse) (cons mse gmse))
                      ((cross-entropy) (cons cross-entropy gcross-entropy))
                      (else (error "Unknow activation function")))))
-    (activation-function name
-                         (car func-deri)
-                         (cdr func-deri))))
-
+    (cost-function name
+                   (car func-deri)
+                   (cdr func-deri))))
 
 ;; name we need to slighly difference apply costs function between number and vector
 (define (both-are-number? result expected)
